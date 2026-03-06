@@ -1,9 +1,19 @@
 class Matrix:
-    def __init__(self, rows):
-        self.rows = rows 
-        self.rows_num = len(rows)  
-        self.cols_num = len(rows[0]) if rows else 0  
+    def __init__(self, rows, cols, value=0):
+        self.rows = rows
+        self.cols = cols
+        self.data = [[value for _ in range(cols)] for _ in range(rows)]
 
-if __name__ == "__main__":
-    m = Matrix([[1,2],[3,4]])
-    print("矩阵行数：", m.rows_num, "列数：", m.cols_num)
+    def get(self, i, j):
+        return self.data[i][j]
+
+    def set(self, i, j, value):
+        self.data[i][j] = value
+
+    def display(self):
+        for row in self.data:
+            print(row)
+
+
+m = Matrix(4, 3)
+m.display()
