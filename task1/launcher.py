@@ -4,11 +4,11 @@ import os
 
 def open_admin():
     root.destroy()
-    os.system("python main_admin.py")
+    os.system("python3 main_admin.py")
 
 def open_user():
     root.destroy()
-    os.system("python main_user.py")
+    os.system("python3 main_user.py")
 
 root = tk.Tk()
 root.title("库存管理系统")
