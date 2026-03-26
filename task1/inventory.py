@@ -35,7 +35,7 @@ class Inventory:
 
     def load_data(self):
         try:
-            with open(self.filename, "r") as f:
+            with open(self.filename, "r", encoding="utf-8") as f:
                 data = json.load(f)
                 for product_data in data:
                     product = Product(**product_data)
