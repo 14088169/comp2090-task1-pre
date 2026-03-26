@@ -13,12 +13,11 @@ class Inventory:
         if product.product_id not in self.products:
             self.products[product.product_id] = product
         else:
-            print(f"Product with ID {product.product_id} already exists.")
+            raise ValueError(f"Product with ID {product.product_id} already exists.")
 
     def update_stock(self, product_id, amount, role):
         if product_id not in self.products:
-            print(f"Product with ID {product_id} not found.")
-            return
+            raise ValueError(f"Product with ID {product_id} not found.")
 
         amount = int(amount)
         if role == "staff":
@@ -56,17 +55,21 @@ class Inventory:
             with open(self.filename, "w", encoding="utf-8") as f:
                 json.dump(data, f, ensure_ascii=False, indent=4)
         except Exception as e:
-            print(f"保存失败: {e}")
+            raise Exception(f"保存失败: {e}")
 
     def check_low_stock(self):
         low_stock_products = [product for product in self.products.values() if product.stock < self.LOW_STOCK_THRESHOLD]
         return low_stock_products
 
     def search_product(self, keyword):
+        keyword = keyword.strip().lower()
+        matches = []
         for product in self.products.values():
-            if keyword.lower() in product.name.lower() or keyword == product.product_id:
-                return product
-        raise ValueError("Product not found")
+            if keyword in product.name.lower() or keyword == product.product_id:
+                matches.append(product)
+        if not matches:
+            raise ValueError("Product not found")
+        return matches
 
     def sort_products(self, key):
         if key == "name":

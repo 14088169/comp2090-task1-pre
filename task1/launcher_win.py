@@ -1,22 +1,47 @@
 import tkinter as tk
 from tkinter import ttk
-import os
+from main_admin import AdminPage
+from main_user import UserPage
 
-def open_admin():
-    root.destroy()
-    os.system("python main_admin.py")
 
-def open_user():
-    root.destroy()
-    os.system("python main_user.py")
+class HomePage(ttk.Frame):
+    def __init__(self, parent, controller):
+        ttk.Frame.__init__(self, parent)
+        self.controller = controller
+        
+        ttk.Label(self, text="请选择登录角色", font=("微软雅黑", 18)).pack(pady=50)
+        ttk.Button(self, text="管理员", command=lambda: controller.show_frame(AdminPage), width=20).pack(pady=10)
+        ttk.Button(self, text="用户", command=lambda: controller.show_frame(UserPage), width=20).pack(pady=10)
+        ttk.Button(self, text="退出", command=controller.quit, width=20).pack(pady=10)
 
-root = tk.Tk()
-root.title("库存管理系统")
-root.geometry("400x250")
-root.resizable(False, False)
 
-ttk.Label(root, text="请选择登录角色", font=("微软雅黑", 16)).pack(pady=40)
-ttk.Button(root, text="管理员", command=open_admin, width=15).pack(pady=5)
-ttk.Button(root, text="用户", command=open_user, width=15).pack(pady=5)
+class MainApp(tk.Tk):
+    def __init__(self):
+        tk.Tk.__init__(self)
+        self.title("库存管理系统")
+        self.geometry("700x400")
+        
+        container = ttk.Frame(self)
+        container.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
+        container.grid_rowconfigure(0, weight=1)
+        container.grid_columnconfigure(0, weight=1)
+        
+        self.frames = {}
+        
+        for F in (HomePage, AdminPage, UserPage):
+            frame = F(container, self)
+            self.frames[F] = frame
+            frame.grid(row=0, column=0, sticky="nsew")
+        
+        self.show_frame(HomePage)
+    
+    def show_frame(self, cont):
+        frame = self.frames[cont]
+        frame.tkraise()
+        if hasattr(frame, 'refresh_list'):
+            frame.refresh_list()
 
-root.mainloop()
+
+if __name__ == "__main__":
+    app = MainApp()
+    app.mainloop()
