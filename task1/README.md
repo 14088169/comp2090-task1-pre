@@ -1,30 +1,52 @@
-# Task 1 – Product Inventory System
+# Inventory Management System
+COMP2090SEF Group Project
+Data Structures, Algorithms and Problem Solving
 
-A program to keep track of products using Python classes.
+## Project Description
+This is an inventory management system developed in Python with GUI using Tkinter.
+The system supports two roles: Admin and User, including functions of product management, stock update, purchase and data persistence.
 
-## What it is
+## Environment
+- Python 3.x
+- Built-in libraries: tkinter, json
 
-- Keeps a list of products in memory.
-- Main pieces:
-  - `Product` has an ID, name, price, and quantity.
-  - `Inventory` holds a list of products and can add/search them.
-  - `User` stores a user ID, name and role.
+## Project Files
+- launcher_win.py      Main launcher (entry point of the application)
+- main_admin.py         Admin interface module
+- main_user.py          User interface module
+- inventory.py          Inventory management class
+- product.py            Product class
+- warehouse_data.json   Data storage file (auto-generated)
 
-## Files
+## How to Run
+1. Place all `.py` files in the same folder.
+2. Run **launcher_win.py** as the main launcher.
+3. On the home page, select your role:
+   - Click **Admin** to enter the admin interface
+   - Click **User** to enter the user purchase interface
+4. Do NOT run main_admin.py or main_user.py directly.
+   Please only use launcher_win.py as the official entry.
 
-```
-task1/
-  main.py        # starts the program
-  product.py     # product class
-  inventory.py   # inventory class
-  user.py        # user class
-  README.md      # you’re reading it
-```
+## Features
 
-## How to run
+### Admin
+- Add new products
+- Update existing product information
+- Delete products
+- Search products by ID or name
+- View and refresh product list
+- Auto-save data to JSON
 
-Just run `main.py` and it creates a few objects to show how it works.
+### User
+- View all available products
+- Select and purchase products
+- Auto deduct stock after purchase
+- Auto remove product when stock is 0
 
-## Notes
-
-This is just the first version for the task. We’ll add more features later (saving data, better input, etc.).
+## OOP Concepts Applied
+- Class and Object
+- Encapsulation
+- Constructor method __init__
+- Instance variables and methods
+- Modular programming with multiple files
+- Separation of GUI and business logic
