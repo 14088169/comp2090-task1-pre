@@ -1,10 +1,10 @@
 class Matrix:
     def __init__(self, data):
         if not all(isinstance(row, list) for row in data):
-            raise ValueError("矩阵必须由列表组成")
+            raise ValueError("matrix must be composed of lists")
         row_length = len(data[0])
         if not all(len(row) == row_length for row in data):
-            raise ValueError("矩阵每一行的元素个数必须相同")
+            raise ValueError("the number of columns in each row must be the same")
         
         self.data = data
         self.rows = len(data)
@@ -15,7 +15,7 @@ class Matrix:
 
     def __add__(self, other):
         if self.rows != other.rows or self.cols != other.cols:
-            raise ValueError("两个矩阵的行列数必须相同才能相加")
+            raise ValueError("two matrices must have the same dimensions for addition")
         
         result = []
         for i in range(self.rows):
@@ -25,7 +25,7 @@ class Matrix:
 
     def __mul__(self, other):
         if self.cols != other.rows:
-            raise ValueError("第一个矩阵的列数必须等于第二个矩阵的行数")
+            raise ValueError("the number of columns in the first matrix must equal the number of rows in the second matrix")
         
         result = [[0 for _ in range(other.cols)] for _ in range(self.rows)]
         for i in range(self.rows):
