@@ -11,7 +11,7 @@ class UserPage(ttk.Frame):
         ttk.Frame.__init__(self, parent)
         self.controller = controller
         
-        # 返回按钮
+        # Return button to go back to the home page
         def go_home():
             for frame_class in self.controller.frames:
                 if frame_class.__name__ == "HomePage":
@@ -20,14 +20,14 @@ class UserPage(ttk.Frame):
         
         return_btn_frame = ttk.Frame(self)
         return_btn_frame.pack(fill=tk.X, padx=10, pady=5)
-        ttk.Button(return_btn_frame, text="返回主页", command=go_home).pack(side=tk.LEFT)
+        ttk.Button(return_btn_frame, text="Back to Home", command=go_home).pack(side=tk.LEFT)
 
         list_frame = ttk.Frame(self, padding=10)
         list_frame.pack(fill=tk.BOTH, expand=True)
 
         self.list_box = tk.Listbox(
             list_frame,
-            font=("微软雅黑", 11),
+            font=("Arial", 11),
             selectmode=tk.SINGLE
         )
         scroll = ttk.Scrollbar(list_frame, orient=tk.VERTICAL, command=self.list_box.yview)
@@ -38,50 +38,107 @@ class UserPage(ttk.Frame):
         btn_frame = ttk.Frame(self, padding=10)
         btn_frame.pack(fill=tk.X)
 
-        ttk.Button(btn_frame, text="刷新列表", command=self.refresh_list).pack(side=tk.LEFT, padx=5)
-        ttk.Button(btn_frame, text="购买", command=self.buy).pack(side=tk.LEFT, padx=5)
+        # Search controls
+        search_frame = ttk.Frame(self, padding=10)
+        search_frame.pack(fill=tk.X)
+        ttk.Label(search_frame, text="Search:").pack(side=tk.LEFT, padx=5)
+        self.search_entry = ttk.Entry(search_frame, width=20)
+        self.search_entry.pack(side=tk.LEFT, padx=5)
+        ttk.Button(search_frame, text="Search", command=self.search_products).pack(side=tk.LEFT, padx=5)
+        ttk.Button(search_frame, text="Show All", command=self.refresh_list).pack(side=tk.LEFT, padx=5)
+
+        # Sort controls
+        sort_frame = ttk.Frame(self, padding=10)
+        sort_frame.pack(fill=tk.X)
+        ttk.Label(sort_frame, text="Sort by:").pack(side=tk.LEFT, padx=5)
+        self.sort_var = tk.StringVar(value="name")
+        sort_combo = ttk.Combobox(sort_frame, textvariable=self.sort_var, values=["name", "price", "stock"], state="readonly", width=10)
+        sort_combo.pack(side=tk.LEFT, padx=5)
+        ttk.Button(sort_frame, text="Sort", command=self.sort_products).pack(side=tk.LEFT, padx=5)
+
+        buy_frame = ttk.Frame(self, padding=10)
+        buy_frame.pack(fill=tk.X)
+
+        ttk.Label(buy_frame, text="Quantity:").pack(side=tk.LEFT, padx=5)
+        self.quantity_entry = ttk.Entry(buy_frame, width=6)
+        self.quantity_entry.pack(side=tk.LEFT, padx=5)
+        self.quantity_entry.insert(0, "1")
+        self.total_label = ttk.Label(buy_frame, text="Total: 0.00")
+        self.total_label.pack(side=tk.LEFT, padx=10)
+
+        ttk.Button(buy_frame, text="Buy", command=self.buy).pack(side=tk.LEFT, padx=5)
 
     def refresh_list(self):
         self.list_box.delete(0, tk.END)
         for p in inventory.products.values():
-            self.list_box.insert(tk.END, f"ID:{p.product_id} | {p.name} | 单价:{p.price} | 库存:{p.stock}")
+            self.list_box.insert(tk.END, f"ID:{p.product_id} | {p.name} | Price:{p.price} | Stock:{p.stock}")
 
     def buy(self):
         idx = self.list_box.curselection()
         if not idx:
-            messagebox.showwarning("提示", "请选择一个商品")
+            messagebox.showwarning("Warning", "Please select a product")
+            return
+
+        quantity_text = self.quantity_entry.get().strip()
+        if not quantity_text:
+            messagebox.showwarning("Warning", "Please enter purchase quantity")
+            return
+
+        try:
+            quantity = int(quantity_text)
+            if quantity <= 0:
+                raise ValueError
+        except ValueError:
+            messagebox.showerror("Error", "Quantity must be a positive integer")
             return
 
         text = self.list_box.get(idx[0])
         pid = text.split("|")[0].replace("ID:", "").strip()
-        p = inventory.products[pid]
 
-        buy_count = 1
+        total = inventory.products[pid].price * quantity
+        self.total_label.config(text=f"Total: {total:.2f}")
 
-        if p.stock < buy_count:
-            messagebox.showerror("错误", "库存不足，无法购买")
+        confirmed = messagebox.askyesno(
+            "Confirm Purchase",
+            f"Product: {inventory.products[pid].name}\nUnit price: {inventory.products[pid].price:.2f}\nQuantity: {quantity}\nTotal: {total:.2f}\n\nConfirm purchase?"
+        )
+        if not confirmed:
             return
 
-        p.stock -= buy_count
+        try:
+            inventory.update_stock(pid, -quantity, "staff")
+        except ValueError as e:
+            messagebox.showerror("Error", str(e))
+            return
 
-        if p.stock <= 0:
-            del inventory.products[pid]
-
-        inventory.save_data()
         self.refresh_list()
-        messagebox.showinfo("购买成功", f"购买：{p.name}\n单价：{p.price}")
+        self.quantity_entry.delete(0, tk.END)
+        self.quantity_entry.insert(0, "1")
+        self.total_label.config(text="Total: 0.00")
+        messagebox.showinfo("Purchase Successful", f"Purchased: {inventory.products.get(pid, p).name}\nQuantity: {quantity}\nTotal: {total:.2f}")
 
+    def search_products(self):
+        # Search for products by name or ID and display results
+        keyword = self.search_entry.get().strip()
+        if not keyword:
+            messagebox.showwarning("Warning", "Please enter a search keyword")
+            return
 
-if __name__ == "__main__":
-    root = tk.Tk()
-    root.title("用户购买界面")
-    root.geometry("650x450")
-    
-    class DummyController:
-        def show_frame(self, frame_class):
-            pass
-    
-    app = UserPage(root, DummyController())
-    app.pack(fill=tk.BOTH, expand=True)
-    app.refresh_list()
-    root.mainloop()
+        try:
+            matches = inventory.search_product(keyword)
+            self.list_box.delete(0, tk.END)
+            for p in matches:
+                self.list_box.insert(tk.END, f"ID:{p.product_id} | {p.name} | Price:{p.price} | Stock:{p.stock}")
+            messagebox.showinfo("Search Result", f"Found {len(matches)} matching products")
+        except ValueError:
+            messagebox.showwarning("Search Result", f"No products found for: {keyword}")
+
+    def sort_products(self):
+        # Sort products by the selected key and refresh the list
+        key = self.sort_var.get()
+        sorted_products = inventory.sort_products(key)
+        self.list_box.delete(0, tk.END)
+        for p in sorted_products:
+            self.list_box.insert(tk.END, f"ID:{p.product_id} | {p.name} | Price:{p.price} | Stock:{p.stock}")
+        messagebox.showinfo("Sort", f"Products sorted by {key}")
+

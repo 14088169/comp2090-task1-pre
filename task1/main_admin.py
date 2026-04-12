@@ -11,7 +11,7 @@ class AdminPage(ttk.Frame):
         ttk.Frame.__init__(self, parent)
         self.controller = controller
         
-        # 返回按钮
+        # Return button takes the user back to the home page
         def go_home():
             for frame_class in self.controller.frames:
                 if frame_class.__name__ == "HomePage":
@@ -20,152 +20,184 @@ class AdminPage(ttk.Frame):
         
         return_btn_frame = ttk.Frame(self)
         return_btn_frame.pack(fill=tk.X, padx=10, pady=5)
-        ttk.Button(return_btn_frame, text="← 返回主页", command=go_home).pack(side=tk.LEFT)
+        ttk.Button(return_btn_frame, text="← Back to Home", command=go_home).pack(side=tk.LEFT)
         
-        # 顶部输入框
+        # Top input panel for product details
         top_frame = ttk.Frame(self, padding=15)
         top_frame.pack(fill=tk.X)
 
-        ttk.Label(top_frame, text="商品ID：").grid(row=0, column=0, padx=5, pady=3)
+        ttk.Label(top_frame, text="Product ID:").grid(row=0, column=0, padx=5, pady=3)
         self.pid_entry = ttk.Entry(top_frame)
         self.pid_entry.grid(row=0, column=1, padx=5, pady=3)
 
-        ttk.Label(top_frame, text="名称：").grid(row=0, column=2, padx=5, pady=3)
+        ttk.Label(top_frame, text="Name:").grid(row=0, column=2, padx=5, pady=3)
         self.name_entry = ttk.Entry(top_frame)
         self.name_entry.grid(row=0, column=3, padx=5, pady=3)
 
-        ttk.Label(top_frame, text="价格：").grid(row=1, column=0, padx=5, pady=3)
+        ttk.Label(top_frame, text="Price:").grid(row=1, column=0, padx=5, pady=3)
         self.price_entry = ttk.Entry(top_frame)
         self.price_entry.grid(row=1, column=1, padx=5, pady=3)
 
-        ttk.Label(top_frame, text="库存：").grid(row=1, column=2, padx=5, pady=3)
+        ttk.Label(top_frame, text="Stock:").grid(row=1, column=2, padx=5, pady=3)
         self.stock_entry = ttk.Entry(top_frame)
         self.stock_entry.grid(row=1, column=3, padx=5, pady=3)
 
-        # 列表框
+        # Product list display area
         list_frame = ttk.Frame(self, padding=10)
         list_frame.pack(fill=tk.BOTH, expand=True)
 
-        self.list_box = tk.Listbox(list_frame, font=("微软雅黑", 11))
+        self.list_box = tk.Listbox(list_frame, font=("Arial", 11))
         scroll = ttk.Scrollbar(list_frame, orient=tk.VERTICAL, command=self.list_box.yview)
         self.list_box.config(yscrollcommand=scroll.set)
         self.list_box.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
         scroll.pack(side=tk.RIGHT, fill=tk.Y)
 
-        # 按钮
+        # Action buttons for admin operations
         btn_frame = ttk.Frame(self, padding=10)
         btn_frame.pack(fill=tk.X)
-        ttk.Button(btn_frame, text="刷新", command=self.refresh_list).pack(side=tk.LEFT, padx=5)
-        ttk.Button(btn_frame, text="搜索", command=self.search_product).pack(side=tk.LEFT, padx=5)
-        ttk.Button(btn_frame, text="添加", command=self.add_product).pack(side=tk.LEFT, padx=5)
-        ttk.Button(btn_frame, text="删除", command=self.delete_product).pack(side=tk.LEFT, padx=5)
+        ttk.Button(btn_frame, text="Search", command=self.search_product).pack(side=tk.LEFT, padx=5)
+        ttk.Button(btn_frame, text="Add", command=self.add_product).pack(side=tk.LEFT, padx=5)
+        ttk.Button(btn_frame, text="Delete", command=self.delete_product).pack(side=tk.LEFT, padx=5)
+        ttk.Button(btn_frame, text="Clear", command=self.clear_inputs).pack(side=tk.LEFT, padx=5)
+
+        # Sort controls
+        sort_frame = ttk.Frame(self, padding=10)
+        sort_frame.pack(fill=tk.X)
+        ttk.Label(sort_frame, text="Sort by:").pack(side=tk.LEFT, padx=5)
+        self.sort_var = tk.StringVar(value="name")
+        sort_combo = ttk.Combobox(sort_frame, textvariable=self.sort_var, values=["name", "price", "stock"], state="readonly", width=10)
+        sort_combo.pack(side=tk.LEFT, padx=5)
+        ttk.Button(sort_frame, text="Sort", command=self.sort_products).pack(side=tk.LEFT, padx=5)
 
     def refresh_list(self):
+        # Refresh the product list display with current inventory data
         self.list_box.delete(0, tk.END)
         for p in inventory.products.values():
             self.list_box.insert(tk.END, str(p))
 
     def add_product(self):
+        # Add a new product or update an existing one based on the entered product ID and details
         pid = self.pid_entry.get().strip()
         name = self.name_entry.get().strip()
         price = self.price_entry.get().strip()
         stock = self.stock_entry.get().strip()
         
+        # Validate input data
         if not (pid and name and price and stock):
-            messagebox.showwarning("提示", "请填写完整")
+            messagebox.showwarning("Warning", "Please complete all fields")
+            return
+
+        if any(c.isspace() for c in pid):
+            messagebox.showwarning("Warning", "Product ID cannot contain whitespace")
             return
         
         try:
             price = float(price)
             stock = int(stock)
         except ValueError:
-            messagebox.showerror("错误", "价格/库存必须是数字")
+            messagebox.showerror("Error", "Price/stock must be numeric")
+            return
+
+        if price <= 0 or stock < 0:
+            messagebox.showerror("Error", "Price must be greater than 0 and stock cannot be negative")
             return
         
-        # 检查ID是否已存在
+        # Check if the product ID already exists and update it if confirmed
         if pid in inventory.products:
-            # 询问用户是否更新
-            result = messagebox.askyesno("商品已存在", f"商品ID {pid} 已存在。是否更新？")
+            result = messagebox.askyesno("Product Exists", f"Product ID {pid} already exists. Update it?")
             if result:
-                # 更新现有商品
+                old_stock = inventory.products[pid].stock
+                amount = stock - old_stock
+                try:
+                    inventory.update_stock(pid, amount, "manager")
+                except ValueError as e:
+                    messagebox.showerror("Error", str(e))
+                    return
                 inventory.products[pid].name = name
                 inventory.products[pid].price = price
-                inventory.products[pid].stock = stock
                 inventory.save_data()
                 self.refresh_list()
-                messagebox.showinfo("成功", "商品更新成功")
+                messagebox.showinfo("Success", "Product updated successfully")
             else:
-                messagebox.showinfo("提示", "操作已取消")
+                messagebox.showinfo("Notice", "Operation canceled")
         else:
-            # 添加新商品
-            p = Product(pid, name, price, stock)
-            inventory.products[pid] = p
-            inventory.save_data()
+            try:
+                inventory.add_product(Product(pid, name, price, stock))
+            except ValueError as e:
+                messagebox.showerror("Error", str(e))
+                return
             self.refresh_list()
-            messagebox.showinfo("成功", "商品添加成功")
+            messagebox.showinfo("Success", "Product added successfully")
+
+    def clear_inputs(self):
+        # Clear all admin entry fields to prevent accidental reuse
+        self.pid_entry.delete(0, tk.END)
+        self.name_entry.delete(0, tk.END)
+        self.price_entry.delete(0, tk.END)
+        self.stock_entry.delete(0, tk.END)
 
     def delete_product(self):
+        # Delete a product from inventory based on the entered product ID, with confirmation
         pid = self.pid_entry.get().strip()
         if not pid:
-            messagebox.showwarning("提示", "请输入商品ID")
+            messagebox.showwarning("Warning", "Please enter a product ID")
+            return
+
+        if any(c.isspace() for c in pid):
+            messagebox.showwarning("Warning", "Product ID cannot contain whitespace")
             return
         
+        # Check if the product ID exists and delete it if confirmed
         if pid in inventory.products:
-            result = messagebox.askyesno("删除确认", f"确定要删除商品ID {pid} 吗？")
+            result = messagebox.askyesno("Delete Confirmation", f"Are you sure you want to delete product ID {pid}?")
             if result:
                 del inventory.products[pid]
                 inventory.save_data()
                 self.refresh_list()
                 self.pid_entry.delete(0, tk.END)
-                messagebox.showinfo("成功", "商品删除成功")
+                messagebox.showinfo("Success", "Product deleted successfully")
             else:
-                messagebox.showinfo("提示", "删除已取消")
+                messagebox.showinfo("Notice", "Delete canceled")
         else:
-            messagebox.showwarning("错误", f"商品ID {pid} 不存在")
+            messagebox.showwarning("Error", f"Product ID {pid} does not exist")
 
     def search_product(self):
+        # Search for products by ID or name based on the entered keywords and display results in the list box
         id_keyword = self.pid_entry.get().strip()
         name_keyword = self.name_entry.get().strip()
 
         if not id_keyword and not name_keyword:
-            messagebox.showwarning("提示", "请输入商品ID或名称搜索")
+            messagebox.showwarning("Warning", "Please enter a product ID or name to search")
             return
 
         try:
             if id_keyword:
-                # 精确匹配ID
+                # Exact match by ID
                 if id_keyword in inventory.products:
                     self.list_box.delete(0, tk.END)
                     self.list_box.insert(tk.END, str(inventory.products[id_keyword]))
-                    messagebox.showinfo("搜索结果", f"找到 1 个匹配商品（ID）")
+                    messagebox.showinfo("Search Result", "Found 1 matching product (ID)")
                     return
                 else:
                     raise ValueError("Product not found")
 
-            # 名称搜索（模糊匹配）
+            # Search by name (partial match)
             products = inventory.search_product(name_keyword)
             self.list_box.delete(0, tk.END)
             for p in products:
                 self.list_box.insert(tk.END, str(p))
-            messagebox.showinfo("搜索结果", f"找到 {len(products)} 个匹配商品（名称）")
+            messagebox.showinfo("Search Result", f"Found {len(products)} matching products (name)")
         except ValueError:
             if id_keyword:
-                messagebox.showwarning("搜索结果", f"未找到ID: {id_keyword}")
+                messagebox.showwarning("Search Result", f"ID not found: {id_keyword}")
             else:
-                messagebox.showwarning("搜索结果", f"未找到名称: {name_keyword}")
+                messagebox.showwarning("Search Result", f"Name not found: {name_keyword}")
 
-
-# 保持独立运行的兼容性
-if __name__ == "__main__":
-    root = tk.Tk()
-    root.title("管理员界面")
-    root.geometry("700x500")
-    
-    class DummyController:
-        def show_frame(self, frame_class):
-            pass
-    
-    app = AdminPage(root, DummyController())
-    app.pack(fill=tk.BOTH, expand=True)
-    app.refresh_list()
-    root.mainloop()
+    def sort_products(self):
+        # Sort products by the selected key and refresh the list
+        key = self.sort_var.get()
+        sorted_products = inventory.sort_products(key)
+        self.list_box.delete(0, tk.END)
+        for p in sorted_products:
+            self.list_box.insert(tk.END, str(p))
+        messagebox.showinfo("Sort", f"Products sorted by {key}")
