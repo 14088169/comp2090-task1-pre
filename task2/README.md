@@ -1,26 +1,33 @@
 # Task 2 – Matrix & Sorting
 
-A `Matrix` class and a shell sort implementation in this folder.
+This is a project with a Matrix class and original shell sort in Python.
 
-## What’s here
+## What's in here
 
-- `matrix.py` defines a simple `Matrix` class that keeps track of rows, columns and data (a list of lists).
-- `shell_sort.py` contains a `shell_sort` function that sorts a list using the Shell sort algorithm.
+- `matrix.py`: A basic Matrix class for handling matrices. It can add, multiply, and transpose them.
+- `shell_sort.py`: A function that sorts lists using Original Shell sort.
 
 ## Files
 
 ```
 task2/
-  matrix.py     # matrix class
-  shell_sort.py # Shell sort algorithm
-  README.md     # this file
+  matrix.py              # Matrix class
+  matrix_operations.py   # Demo for matrix
+  shell_sort.py          # Shell sort function
+  README.md              # This file
 ```
 
-## To use
+## How to run
 
-- For matrix, call the methods you add in `matrix.py`.
-- For sorting, run `shell_sort(arr)` with a list and it returns the sorted list. There's a quick example at the bottom of the file.
+Unzip the files from github, cd to file itself, and run the scripts.
+Run the demo scripts to see the results:
+
+- For matrix operations: `python matrix_operations.py`
+- For shell sort: `python shell_sort.py`
+
+The scripts will show you examples and results.
 
 ## Notes
 
-More matrix operations or other can go here later.
+- Make sure you have Python installed.
+- No extra packages needed.
