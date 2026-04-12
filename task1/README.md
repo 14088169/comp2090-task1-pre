@@ -5,13 +5,13 @@ Data Structures, Algorithms and Problem Solving
 ## Project Description
 This is an inventory management system developed in Python with GUI using Tkinter.
 The system supports two roles: Admin and User, including functions of product management, stock update, purchase and data persistence.
+Features include admin login with password protection, input validation, purchase confirmation with total price calculation, and automatic data saving to JSON.
 
 ## Environment
-- Python 3.x
 - Built-in libraries: tkinter, json
 
 ## Project Files
-- launcher_win.py      Main launcher (entry point of the application)
+- launcher.py      Main launcher (entry point of the application)
 - main_admin.py         Admin interface module
 - main_user.py          User interface module
 - inventory.py          Inventory management class
@@ -22,8 +22,8 @@ The system supports two roles: Admin and User, including functions of product ma
 1. Place all `.py` files in the same folder.
 2. Run **launcher.py** as the main launcher.
 3. On the home page, select your role:
-   - Click **Admin** to enter the admin interface
-   - Click **Staff** to enter the user purchase interface
+   - For **Admin**: Enter password "admin123" in the login panel to access admin interface
+   - Click **User** to enter the user purchase interface
 4. Do NOT run main_admin.py or main_user.py directly.
    Please only use launcher.py as the official entry.
 
