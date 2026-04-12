@@ -20,12 +20,12 @@ The system supports two roles: Admin and User, including functions of product ma
 
 ## How to Run
 1. Place all `.py` files in the same folder.
-2. Run **launcher_win.py** as the main launcher.
+2. Run **launcher.py** as the main launcher.
 3. On the home page, select your role:
    - Click **Admin** to enter the admin interface
-   - Click **User** to enter the user purchase interface
+   - Click **Staff** to enter the user purchase interface
 4. Do NOT run main_admin.py or main_user.py directly.
-   Please only use launcher_win.py as the official entry.
+   Please only use launcher.py as the official entry.
 
 ## Features
 
