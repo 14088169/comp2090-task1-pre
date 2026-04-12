@@ -40,7 +40,7 @@ class MainApp(tk.Tk):
         # Initialize the main application window and set up the frame container for navigation
         tk.Tk.__init__(self)
         self.title("Inventory Management System")
-        self.geometry("760x480")
+        self.geometry("760x500")
         
         # Enable high DPI support for better font rendering
         try:
