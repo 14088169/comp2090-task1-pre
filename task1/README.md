@@ -1,20 +1,39 @@
-# Inventory Management System
+**COMP2090SEF Data Structures Project**
 
-## Introduction
-This is an inventory management system built with Python using Tkinter GUI.
-It supports two roles: Admin and Staff, for managing products, updating stock, purchasing items, and automatically saving data to JSON.
+## Table of Contents
+- [Project Description](#project-description)
+- [OOP Concepts](#oop-concepts-used)
+- [Project Structure](#project-structure)
+- [How to Run](#how-to-run)
+- [Features](#features)
+- [Resources](#external-resources)
 
-## Environment Requirements
-- Python 3.x
-- Built-in libraries: tkinter, json
+## Project Description
 
-## Project Files
-- launcher.py - Main program entry
-- main_admin.py - Admin interface
-- main_user.py - User interface
-- inventory.py - Inventory management class
-- product.py - Product class
-- warehouse_data.json - Data file (auto-generated)
+This project implements an Inventory Management System, which allows users to manage and organize products in a warehouse.
+
+The system is developed using Object-Oriented Programming (OOP) concepts in Python and demonstrates data structure implementation and modular design.
+
+## OOP Concepts Used
+
+- Encapsulation
+- Inheritance
+- Polymorphism
+- Abstraction
+- Modular Programming (multiple Python files)
+
+## Project Structure
+
+```
+task1/
+├── launcher.py
+├── main_admin.py
+├── main_user.py
+├── inventory.py
+├── product.py
+├── warehouse_data.json
+└── README.md
+```
 
 ## How to Run
 1. Unzip from github. Put all .py files in the same folder
@@ -30,22 +49,28 @@ It supports two roles: Admin and Staff, for managing products, updating stock, p
 
 ## Features
 
-### Admin Features
-- Add new products
-- Update product information
-- Delete products
-- Search products
-- View product list
-- Auto-save data
+- Add new products (Admin)
+- Update product information (Admin)
+- Delete products (Admin)
+- Search products (Admin and User)
+- View product list (Admin and User)
+- Sort the product list (Admin and User)
+- Purchase items (User)
+- Auto-save data to JSON
 
-### User Features
-- View all products
-- Select and purchase items
-- Auto deduct stock after purchase
-- Calculate total price
-- Auto remove product when stock reaches 0
+## Project Introduction Video
 
-## Demo Video
-Watch the demo video: [Link](...)
-- Modular programming with multiple files
-- Separation of GUI and business logic
+[Task 1 Intro Video](https://drive.google.com/file/d/1GqVxCOcdOzp9UoSUT1AlNq3U3NBrLEvJ/view?usp=sharing)
+
+## External Resources
+
+- [Python Tkinter documentation 1](https://www.geeksforgeeks.org/python/create-first-gui-application-using-python-tkinter/ )
+- [Python Tkinter documentation 1](https://realpython.com/python-gui-tkinter/ )
+- [GeeksforGeeks](https://www.geeksforgeeks.org/python/create-first-gui-application-using-python-tkinter/ )
+- [W3schools](https://www.w3schools.com/python/python_oop.asp)
+- Copilot – used for debugging assistance
+- GPT - used for conceptual clarification and syntax suggestions
+
+## Notes
+
+**Final code independently implemented**

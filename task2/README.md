@@ -1,33 +1,63 @@
-# Task 2 – Matrix & Sorting
+**COMP2090SEF Data Structures Project**
 
-This is a project with a Matrix class and original shell sort in Python.
+## Table of Contents
+- [Project Description](#project-description)
+- [OOP Concepts](#oop-concepts-used)
+- [Project Structure](#project-structure)
+- [How to Run](#how-to-run)
+- [Features](#features)
+- [External Resources](#external-resources)
 
-## What's in here
+## Project Description
 
-- `matrix.py`: A basic Matrix class for handling matrices. It can add, multiply, and transpose them.
-- `shell_sort.py`: A function that sorts lists using Original Shell sort.
+This project implements matrix operations and sorting algorithms, which allows users to perform mathematical computations and data sorting.
 
-## Files
+The system is developed using Object-Oriented Programming (OOP) concepts in Python and demonstrates data structure implementation and algorithm efficiency.
+
+## OOP Concepts Used
+
+- Encapsulation
+- Modular Programming (multiple Python files)
+
+## Project Structure
 
 ```
 task2/
-  matrix.py              # Matrix class
-  matrix_operations.py   # Demo for matrix
-  shell_sort.py          # Shell sort function
-  README.md              # This file
+├── matrix.py
+├── matrix_operations.py
+├── shell_sort.py
+└── README.md
 ```
 
-## How to run
+## How to Run
 
-Unzip the files from github, cd to file itself, and run the scripts.
-Run the demo scripts to see the results:
+Requirements:
+- Python 3.x
 
-- For matrix operations: `python matrix_operations.py`
-- For shell sort: `python shell_sort.py`
+1. Unzip from GitHub and navigate to the task2 folder
+2. Run the demo scripts to see the results:
+   ```
+   cd ...\comp2090-task1-pre-main\task2
+   python matrix_operations.py (or python3 matrix_operations.py)
+   python shell_sort.py (or python3 shell_sort.py)
+   ```
+3. The scripts will display examples and results of the operations
 
-The scripts will show you examples and results.
+## Features
 
-## Notes
+- Matrix class with add, multiply, and transpose operations
+- Original Shell sort implementation for sorting lists
+- Demo scripts showing examples and detailed results
+- Modular design for easy extension and reuse
 
-- Make sure you have Python installed.
-- No extra packages needed.
+## Project Introduction Video
+
+[Task 2 Intro Video](https://drive.google.com/file/d/1Fnea_SJSloyjh5O4tLCtXjfR7Pg4LuMm/view?usp=sharing])
+
+## External Resources
+
+- [GeeksforGeeks python matirx](https://www.geeksforgeeks.org/python/python-matrix/)
+- [GeeksforGeeks Aplplication of Matrices](https://www.geeksforgeeks.org/maths/real-life-application-of-matrices/ )
+- [GeeksforGeeks shell sort](https://www.geeksforgeeks.org/dsa/shell-sort/)
+- [Programiz matrix](https://www.programiz.com/python-programming/matrix )
+- [Wikipedia Shellsort](https://en.wikipedia.org/wiki/Shellsort)
