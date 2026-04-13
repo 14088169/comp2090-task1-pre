@@ -54,6 +54,7 @@ task1/
 - Delete products (Admin)
 - Search products (Admin and User)
 - View product list (Admin and User)
+- Sort the product list (Admin and User)
 - Purchase items (User)
 - Auto-save data to JSON
 
