@@ -1,5 +1,12 @@
-# Task 1 – Inventory Management System
-COMP2090SEF Data Structures Project
+**COMP2090SEF Data Structures Project**
+
+## Table of Contents
+- [Project Description](#project-description)
+- [OOP Concepts](#oop-concepts-used)
+- [Project Structure](#project-structure)
+- [How to Run](#how-to-run)
+- [Features](#features)
+- [Resources](#external-resources)
 
 ## Project Description
 
@@ -17,8 +24,8 @@ The system is developed using Object-Oriented Programming (OOP) concepts in Pyth
 
 ## Project Structure
 
+```
 task1/
-│
 ├── launcher.py
 ├── main_admin.py
 ├── main_user.py
@@ -26,6 +33,7 @@ task1/
 ├── product.py
 ├── warehouse_data.json
 └── README.md
+```
 
 ## How to Run
 1. Unzip from github. Put all .py files in the same folder
@@ -61,4 +69,7 @@ https://drive.google.com/file/d/1jFeG9Oe34VU6IGwmcYHhzUdsRYWA2aXd/view?usp=shari
 - W3schools
 - Copilot – used for debugging assistance
 - GPT - used for conceptual clarification and syntax suggestions
-- ### Final code independently implemented
+
+## Notes
+
+**Final code independently implemented**
