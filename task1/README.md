@@ -60,7 +60,7 @@ task1/
 
 ## Project Introduction Video
 
-[Task 1 Intro Video](https://youtu.be/rQ25-sp-Uw0)
+[Task 1 Intro Video](https://drive.google.com/file/d/1-G4gEzDtql3MyeEv4WrH9KxjlcFOcOEi/view?usp=sharing)
 
 ## External Resources
 
