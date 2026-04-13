@@ -56,6 +56,8 @@ Requirements:
 
 ## External Resources
 
-- GeeksforGeeks
-- Programiz
-- Wikipedia
+- [GeeksforGeeks python matirx](https://www.geeksforgeeks.org/python/python-matrix/)
+- [GeeksforGeeks Aplplication of Matrices](https://www.geeksforgeeks.org/maths/real-life-application-of-matrices/ )
+- [GeeksforGeeks shell sort](https://www.geeksforgeeks.org/dsa/shell-sort/)
+- [Programiz matrix](https://www.programiz.com/python-programming/matrix )
+- [Wikipedia Shellsort](https://en.wikipedia.org/wiki/Shellsort)
