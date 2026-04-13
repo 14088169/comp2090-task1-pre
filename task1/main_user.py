@@ -1,15 +1,13 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
-from inventory import Inventory
 from product import Product
-
-inventory = Inventory()
 
 
 class UserPage(ttk.Frame):
-    def __init__(self, parent, controller):
+    def __init__(self, parent, controller, inventory):
         ttk.Frame.__init__(self, parent)
         self.controller = controller
+        self.inventory = inventory
         
         # Return button to go back to the home page
         def go_home():
@@ -70,7 +68,7 @@ class UserPage(ttk.Frame):
 
     def refresh_list(self):
         self.list_box.delete(0, tk.END)
-        for p in inventory.products.values():
+        for p in self.inventory.products.values():
             self.list_box.insert(tk.END, f"ID:{p.product_id} | {p.name} | Price:{p.price} | Stock:{p.stock}")
 
     def buy(self):
@@ -95,18 +93,18 @@ class UserPage(ttk.Frame):
         text = self.list_box.get(idx[0])
         pid = text.split("|")[0].replace("ID:", "").strip()
 
-        total = inventory.products[pid].price * quantity
+        total = self.inventory.products[pid].price * quantity
         self.total_label.config(text=f"Total: {total:.2f}")
 
         confirmed = messagebox.askyesno(
             "Confirm Purchase",
-            f"Product: {inventory.products[pid].name}\nUnit price: {inventory.products[pid].price:.2f}\nQuantity: {quantity}\nTotal: {total:.2f}\n\nConfirm purchase?"
+            f"Product: {self.inventory.products[pid].name}\nUnit price: {self.inventory.products[pid].price:.2f}\nQuantity: {quantity}\nTotal: {total:.2f}\n\nConfirm purchase?"
         )
         if not confirmed:
             return
 
         try:
-            inventory.update_stock(pid, -quantity, "staff")
+            self.inventory.update_stock(pid, -quantity, "staff")
         except ValueError as e:
             messagebox.showerror("Error", str(e))
             return
@@ -115,7 +113,7 @@ class UserPage(ttk.Frame):
         self.quantity_entry.delete(0, tk.END)
         self.quantity_entry.insert(0, "1")
         self.total_label.config(text="Total: 0.00")
-        messagebox.showinfo("Purchase Successful", f"Purchased: {inventory.products.get(pid, p).name}\nQuantity: {quantity}\nTotal: {total:.2f}")
+        messagebox.showinfo("Purchase Successful", f"Purchased: {self.inventory.products.get(pid, p).name}\nQuantity: {quantity}\nTotal: {total:.2f}")
 
     def search_products(self):
         # Search for products by name or ID and display results
@@ -125,7 +123,7 @@ class UserPage(ttk.Frame):
             return
 
         try:
-            matches = inventory.search_product(keyword)
+            matches = self.inventory.search_product(keyword)
             self.list_box.delete(0, tk.END)
             for p in matches:
                 self.list_box.insert(tk.END, f"ID:{p.product_id} | {p.name} | Price:{p.price} | Stock:{p.stock}")
@@ -136,7 +134,7 @@ class UserPage(ttk.Frame):
     def sort_products(self):
         # Sort products by the selected key and refresh the list
         key = self.sort_var.get()
-        sorted_products = inventory.sort_products(key)
+        sorted_products = self.inventory.sort_products(key)
         self.list_box.delete(0, tk.END)
         for p in sorted_products:
             self.list_box.insert(tk.END, f"ID:{p.product_id} | {p.name} | Price:{p.price} | Stock:{p.stock}")

@@ -21,6 +21,12 @@
         "product_id": "004",
         "name": "Grape",
         "price": 14.0,
-        "stock": 250
+        "stock": 246
+    },
+    {
+        "product_id": "005",
+        "name": "Fan",
+        "price": 17.0,
+        "stock": 4
     }
 ]

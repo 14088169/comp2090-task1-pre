@@ -1,15 +1,13 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
-from inventory import Inventory
 from product import Product
-
-inventory = Inventory()
 
 
 class AdminPage(ttk.Frame):
-    def __init__(self, parent, controller):
+    def __init__(self, parent, controller, inventory):
         ttk.Frame.__init__(self, parent)
         self.controller = controller
+        self.inventory = inventory
         
         # Return button takes the user back to the home page
         def go_home():
@@ -72,7 +70,7 @@ class AdminPage(ttk.Frame):
     def refresh_list(self):
         # Refresh the product list display with current inventory data
         self.list_box.delete(0, tk.END)
-        for p in inventory.products.values():
+        for p in self.inventory.products.values():
             self.list_box.insert(tk.END, str(p))
 
     def add_product(self):
@@ -103,26 +101,27 @@ class AdminPage(ttk.Frame):
             return
         
         # Check if the product ID already exists and update it if confirmed
-        if pid in inventory.products:
+        if pid in self.inventory.products:
             result = messagebox.askyesno("Product Exists", f"Product ID {pid} already exists. Update it?")
             if result:
-                old_stock = inventory.products[pid].stock
+                old_stock = self.inventory.products[pid].stock
                 amount = stock - old_stock
                 try:
-                    inventory.update_stock(pid, amount, "manager")
+                    self.inventory.update_stock(pid, amount, "manager")
                 except ValueError as e:
                     messagebox.showerror("Error", str(e))
                     return
-                inventory.products[pid].name = name
-                inventory.products[pid].price = price
-                inventory.save_data()
+                self.inventory.products[pid].name = name
+                self.inventory.products[pid].price = price
+                self.inventory.save_data()
                 self.refresh_list()
                 messagebox.showinfo("Success", "Product updated successfully")
             else:
                 messagebox.showinfo("Notice", "Operation canceled")
         else:
             try:
-                inventory.add_product(Product(pid, name, price, stock))
+                self.inventory.add_product(Product(pid, name, price, stock))
+                self.inventory.save_data()
             except ValueError as e:
                 messagebox.showerror("Error", str(e))
                 return
@@ -148,11 +147,11 @@ class AdminPage(ttk.Frame):
             return
         
         # Check if the product ID exists and delete it if confirmed
-        if pid in inventory.products:
+        if pid in self.inventory.products:
             result = messagebox.askyesno("Delete Confirmation", f"Are you sure you want to delete product ID {pid}?")
             if result:
-                del inventory.products[pid]
-                inventory.save_data()
+                del self.inventory.products[pid]
+                self.inventory.save_data()
                 self.refresh_list()
                 self.pid_entry.delete(0, tk.END)
                 messagebox.showinfo("Success", "Product deleted successfully")
@@ -173,16 +172,16 @@ class AdminPage(ttk.Frame):
         try:
             if id_keyword:
                 # Exact match by ID
-                if id_keyword in inventory.products:
+                if id_keyword in self.inventory.products:
                     self.list_box.delete(0, tk.END)
-                    self.list_box.insert(tk.END, str(inventory.products[id_keyword]))
+                    self.list_box.insert(tk.END, str(self.inventory.products[id_keyword]))
                     messagebox.showinfo("Search Result", "Found 1 matching product (ID)")
                     return
                 else:
                     raise ValueError("Product not found")
 
             # Search by name (partial match)
-            products = inventory.search_product(name_keyword)
+            products = self.inventory.search_product(name_keyword)
             self.list_box.delete(0, tk.END)
             for p in products:
                 self.list_box.insert(tk.END, str(p))
@@ -196,7 +195,7 @@ class AdminPage(ttk.Frame):
     def sort_products(self):
         # Sort products by the selected key and refresh the list
         key = self.sort_var.get()
-        sorted_products = inventory.sort_products(key)
+        sorted_products = self.inventory.sort_products(key)
         self.list_box.delete(0, tk.END)
         for p in sorted_products:
             self.list_box.insert(tk.END, str(p))

@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
+from inventory import Inventory
 from main_admin import AdminPage
 from main_user import UserPage
 
@@ -58,9 +59,13 @@ class MainApp(tk.Tk):
         container.grid_columnconfigure(0, weight=1)
         
         self.frames = {}
+        self.inventory = Inventory()
         
         for F in (HomePage, AdminPage, UserPage):
-            frame = F(container, self)
+            if F in (AdminPage, UserPage):
+                frame = F(container, self, self.inventory)
+            else:
+                frame = F(container, self)
             self.frames[F] = frame
             frame.grid(row=0, column=0, sticky="nsew")
         
