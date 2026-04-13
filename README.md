@@ -44,4 +44,4 @@ This repository contains two Python projects for COMP2090: Inventory Management 
 ## External Resources
 - Python Tkinter documentation
 - JSON for data persistence
-- Matrix mathematics concepts
+
