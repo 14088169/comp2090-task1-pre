@@ -52,7 +52,7 @@ Requirements:
 
 ## Project Introduction Video
 
-[Task 2 Intro Video](https://drive.google.com/file/d/1Fnea_SJSloyjh5O4tLCtXjfR7Pg4LuMm/view?usp=sharing])
+[Task 2 Intro Video](https://drive.google.com/file/d/1Fnea_SJSloyjh5O4tLCtXjfR7Pg4LuMm/view?usp=sharing)
 
 ## External Resources
 
