@@ -1,20 +1,31 @@
-# Inventory Management System
+# Task 1 – Inventory Management System
+COMP2090SEF Data Structures Project
 
-## Introduction
-This is an inventory management system built with Python using Tkinter GUI.
-It supports two roles: Admin and Staff, for managing products, updating stock, purchasing items, and automatically saving data to JSON.
+## Project Description
 
-## Environment Requirements
-- Python 3.x
-- Built-in libraries: tkinter, json
+This project implements an Inventory Management System, which allows users to manage and organize products in a warehouse.
 
-## Project Files
-- launcher.py - Main program entry
-- main_admin.py - Admin interface
-- main_user.py - User interface
-- inventory.py - Inventory management class
-- product.py - Product class
-- warehouse_data.json - Data file (auto-generated)
+The system is developed using Object-Oriented Programming (OOP) concepts in Python and demonstrates data structure implementation and modular design.
+
+## OOP Concepts Used
+
+- Encapsulation
+- Inheritance
+- Polymorphism
+- Abstraction
+- Modular Programming (multiple Python files)
+
+## Project Structure
+
+task1/
+│
+├── launcher.py
+├── main_admin.py
+├── main_user.py
+├── inventory.py
+├── product.py
+├── warehouse_data.json
+└── README.md
 
 ## How to Run
 1. Unzip from github. Put all .py files in the same folder
@@ -30,22 +41,24 @@ It supports two roles: Admin and Staff, for managing products, updating stock, p
 
 ## Features
 
-### Admin Features
-- Add new products
-- Update product information
-- Delete products
-- Search products
-- View product list
-- Auto-save data
+- Add new products (Admin)
+- Update product information (Admin)
+- Delete products (Admin)
+- Search products (Admin and User)
+- View product list (Admin and User)
+- Purchase items (User)
+- Auto-save data to JSON
 
-### User Features
-- View all products
-- Select and purchase items
-- Auto deduct stock after purchase
-- Calculate total price
-- Auto remove product when stock reaches 0
+## Project Introduction Video
 
-## Demo Video
-Watch the demo video: [Link](...)
-- Modular programming with multiple files
-- Separation of GUI and business logic
+https://drive.google.com/file/d/1jFeG9Oe34VU6IGwmcYHhzUdsRYWA2aXd/view?usp=sharing
+
+## External Resources
+
+- Python Tkinter documentation
+- JSON for data persistence
+- GeeksforGeeks
+- W3schools
+- Copilot – used for debugging assistance
+- GPT - used for conceptual clarification and syntax suggestions
+- ### Final code independently implemented
