@@ -65,9 +65,9 @@ task1/
 ## External Resources
 
 - [Python Tkinter documentation 1](https://www.geeksforgeeks.org/python/create-first-gui-application-using-python-tkinter/ )
-- [Python Tkinter documentation 1](https://realpython.com/python-gui-tkinter/ )
-- [GeeksforGeeks](https://www.geeksforgeeks.org/python/create-first-gui-application-using-python-tkinter/ )
-- [W3schools](https://www.w3schools.com/python/python_oop.asp)
+- [Python Tkinter documentation 2](https://realpython.com/python-gui-tkinter/ )
+- [GeeksforGeeks application-using-python-tkinter](https://www.geeksforgeeks.org/python/create-first-gui-application-using-python-tkinter/ )
+- [W3schools python_oop](https://www.w3schools.com/python/python_oop.asp)
 - Copilot – used for debugging assistance
 - GPT - used for conceptual clarification and syntax suggestions
 
