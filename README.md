@@ -41,7 +41,15 @@ This repository contains two Python projects for COMP2090: Inventory Management 
 | `task2/shell_sort.py` | Shell sort implementation |
 
 
-## External Resources
+## External Resources (Detailed references are provided in each task folder.)
 - Python Tkinter documentation
-- JSON for data persistence
+- GeeksforGeeks
+- W3schools
+- Wikipedia
+- Programiz
+- Copilot – used for debugging assistance
+- ChatGPT - used for conceptual clarification and syntax suggestions
 
+## Notes
+
+**Final code independently implemented**
