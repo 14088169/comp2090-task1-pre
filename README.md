@@ -12,8 +12,8 @@
 3. Run `python shell_sort.py` for sorting demo
 
 ## Introduction Video
-- Task 1 Demo: [Task 1 Video](https://youtu.be/rQ25-sp-Uw0)
-- Task 2 Demo: [Task 2 Video](https://youtu.be/zGZb_NZ_pAo)
+- Task 1 Demo: [Task 1 Video](https://drive.google.com/file/d/1-G4gEzDtql3MyeEv4WrH9KxjlcFOcOEi/view?usp=sharing)
+- Task 2 Demo: [Task 2 Video](https://drive.google.com/file/d/1Fnea_SJSloyjh5O4tLCtXjfR7Pg4LuMm/view?usp=sharing)
 ## Description
 This repository contains two Python projects for COMP2090: Inventory Management System (Task 1)  Matrix and Shell Sort (Task 2). Both projects demonstrate OOP principles and practical implementations.
 
