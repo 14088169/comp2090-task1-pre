@@ -1,3 +1,5 @@
+"""Admin page UI for inventory management, including add/delete/search operations."""
+
 import tkinter as tk
 from tkinter import ttk, messagebox
 from product import Product
@@ -44,11 +46,12 @@ class AdminPage(ttk.Frame):
         list_frame = ttk.Frame(self, padding=10)
         list_frame.pack(fill=tk.BOTH, expand=True)
 
-        self.list_box = tk.Listbox(list_frame, font=("Arial", 11))
+        self.list_box = tk.Listbox(list_frame, font=("Arial", 14))
         scroll = ttk.Scrollbar(list_frame, orient=tk.VERTICAL, command=self.list_box.yview)
         self.list_box.config(yscrollcommand=scroll.set)
         self.list_box.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
         scroll.pack(side=tk.RIGHT, fill=tk.Y)
+        self.list_box.bind("<<ListboxSelect>>", self.on_product_select)
 
         # Action buttons for admin operations
         btn_frame = ttk.Frame(self, padding=10)
@@ -101,6 +104,7 @@ class AdminPage(ttk.Frame):
             return
         
         # Check if the product ID already exists and update it if confirmed
+        # Existing products use update flow, new products are added fresh
         if pid in self.inventory.products:
             result = messagebox.askyesno("Product Exists", f"Product ID {pid} already exists. Update it?")
             if result:
@@ -147,6 +151,7 @@ class AdminPage(ttk.Frame):
             return
         
         # Check if the product ID exists and delete it if confirmed
+        # Ask the admin for confirmation before deleting the product
         if pid in self.inventory.products:
             result = messagebox.askyesno("Delete Confirmation", f"Are you sure you want to delete product ID {pid}?")
             if result:
@@ -171,7 +176,7 @@ class AdminPage(ttk.Frame):
 
         try:
             if id_keyword:
-                # Exact match by ID
+                # Exact match by ID is faster and more precise than name search
                 if id_keyword in self.inventory.products:
                     self.list_box.delete(0, tk.END)
                     self.list_box.insert(tk.END, str(self.inventory.products[id_keyword]))
@@ -180,7 +185,7 @@ class AdminPage(ttk.Frame):
                 else:
                     raise ValueError("Product not found")
 
-            # Search by name (partial match)
+            # Search by product name if no ID was entered
             products = self.inventory.search_product(name_keyword)
             self.list_box.delete(0, tk.END)
             for p in products:
@@ -191,6 +196,24 @@ class AdminPage(ttk.Frame):
                 messagebox.showwarning("Search Result", f"ID not found: {id_keyword}")
             else:
                 messagebox.showwarning("Search Result", f"Name not found: {name_keyword}")
+
+    def on_product_select(self, event):
+        # When a product is selected in the list, fill the entry fields above
+        selection = event.widget.curselection()
+        if not selection:
+            return
+        text = event.widget.get(selection[0])
+        pid = text.split("|")[0].replace("ID:", "").strip()
+        product = self.inventory.products.get(pid)
+        if product:
+            self.pid_entry.delete(0, tk.END)
+            self.pid_entry.insert(0, product.product_id)
+            self.name_entry.delete(0, tk.END)
+            self.name_entry.insert(0, product.name)
+            self.price_entry.delete(0, tk.END)
+            self.price_entry.insert(0, str(product.price))
+            self.stock_entry.delete(0, tk.END)
+            self.stock_entry.insert(0, str(product.stock))
 
     def sort_products(self):
         # Sort products by the selected key and refresh the list

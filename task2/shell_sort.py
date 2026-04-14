@@ -1,3 +1,5 @@
+"""Shell sort implementation and a small demo run when executed directly."""
+
 def shell_sort(arr):
     # Get the length of the array
     n = len(arr)
@@ -23,6 +25,7 @@ def shell_sort(arr):
 
 
 if __name__ == "__main__":
+    # Demo run when this file is executed directly
     print("===== Shell Sort Demo =====")
     print("Original array: [9, 8, 3, 7, 5, 6, 4, 1]")
 

@@ -1,12 +1,17 @@
+"""Manage inventory data and persist it to a JSON file."""
+
 from product import Product
 import json
+import os
 
 class Inventory:
     LOW_STOCK_THRESHOLD = 10
 
     def __init__(self, filename="warehouse_data.json"):
-        # Initialize inventory storage and load saved JSON data
-        self.filename = filename
+        # Use a path relative to this module so JSON loads correctly
+        # even when the app is started from a different working directory.
+        base_dir = os.path.dirname(__file__)
+        self.filename = os.path.join(base_dir, filename)
         self.products = {}
         self.load_data()
 
@@ -24,6 +29,7 @@ class Inventory:
 
         amount = int(amount)
         if role == "staff":
+            # Staff can only buy items, not restock inventory
             if amount > 0:
                 raise ValueError("Staff cannot add stock")
             if self.products[product_id].stock + amount < 0:

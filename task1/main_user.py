@@ -1,6 +1,5 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
-from product import Product
 
 
 class UserPage(ttk.Frame):
@@ -25,7 +24,7 @@ class UserPage(ttk.Frame):
 
         self.list_box = tk.Listbox(
             list_frame,
-            font=("Arial", 11),
+            font=("Arial", 14),
             selectmode=tk.SINGLE
         )
         scroll = ttk.Scrollbar(list_frame, orient=tk.VERTICAL, command=self.list_box.yview)
@@ -113,7 +112,8 @@ class UserPage(ttk.Frame):
         self.quantity_entry.delete(0, tk.END)
         self.quantity_entry.insert(0, "1")
         self.total_label.config(text="Total: 0.00")
-        messagebox.showinfo("Purchase Successful", f"Purchased: {self.inventory.products.get(pid, p).name}\nQuantity: {quantity}\nTotal: {total:.2f}")
+        selected_product = self.inventory.products[pid]
+        messagebox.showinfo("Purchase Successful", f"Purchased: {selected_product.name}\nQuantity: {quantity}\nTotal: {total:.2f}")
 
     def search_products(self):
         # Search for products by name or ID and display results

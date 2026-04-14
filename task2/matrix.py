@@ -1,3 +1,5 @@
+"""Matrix utility class with addition, multiplication, and transpose support."""
+
 class Matrix:
     def __init__(self, data):
         # Validate that data is a list of lists and that all rows have the same number of columns

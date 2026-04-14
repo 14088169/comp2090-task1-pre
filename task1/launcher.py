@@ -1,3 +1,5 @@
+"""Launcher module that starts the inventory GUI and handles login routing."""
+
 import tkinter as tk
 from tkinter import ttk, messagebox
 from inventory import Inventory

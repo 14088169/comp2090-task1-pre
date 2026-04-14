@@ -1,3 +1,5 @@
+"""Product data model used by the inventory system."""
+
 class Product:
     """Represents a single product in inventory."""
 
